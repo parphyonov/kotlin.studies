@@ -1,16 +1,19 @@
 package codecorp
 
 import java.io.File
+import kotlin.text.toInt
 
 class Accountant(
     id: Int,
     name: String,
-    age: Int = 0
+    age: Int = 0,
+    salary: Int
 ) : Employee(
     id = id,
     name = name,
     age = age,
-    position = Positions.ACCOUNTANT
+    position = Positions.ACCOUNTANT,
+    salary = salary
 ), Cleaner, Supplier {
     private val cardsFile = File("product_cards.txt")
     private val employeesFile = File("employees.csv")
@@ -38,13 +41,31 @@ class Accountant(
                 AccountantOperations.REGISTER_NEW_EMPLOYEE -> registerNewEmployee()
                 AccountantOperations.SHOW_ALL_EMPLOYEES -> showAllEmployees()
                 AccountantOperations.FIRE_EMPLOYEE -> fireEmployee()
+                AccountantOperations.CHANGE_SALARY -> changeSalary()
             }
         }
     }
 
+    private fun changeSalary() {
+        val employees = loadAllEmployees()
+
+        print("Enter employee's ID for salary update: ")
+        val id = readln().toInt()
+
+        print("Enter new salary: ")
+        val newSalary = readln().toInt()
+
+        for (employee in employees)
+            if (id == employee.id) {
+                employee.setSalary(newSalary)
+                break
+            }
+
+        rewrite(employees)
+    }
+
     private fun fireEmployee() {
         val employees = loadAllEmployees()
-        var idFound = false
 
         print("Enter employee's ID (for firing): ")
         val id = readln().toInt()
@@ -52,17 +73,19 @@ class Accountant(
         for (employee in employees) {
             if (employee.id == id) {
                 employees.remove(employee)
-                idFound = true
+
+                rewrite(employees)
+
                 break
             }
         }
+    }
 
-        if (idFound) {
-            employeesFile.writeText("")
+    private fun rewrite(employees: MutableList<Employee>) {
+        employeesFile.writeText("")
 
-            for (employee in employees) {
-                employee.serializeTo(employeesFile)
-            }
+        for (employee in employees) {
+            employee.serializeTo(employeesFile)
         }
     }
 
@@ -83,13 +106,12 @@ class Accountant(
             val (id, name, age, salary, position) = splitEmployee
 
             val employee = when (Positions.valueOf(position)) {
-                Positions.DIRECTOR -> Director(id.toInt(), name, age.toInt())
-                Positions.ASSISTANT -> Assistant(id.toInt(), name, age.toInt())
-                Positions.CONSULTANT -> Consultant(id.toInt(), name, age.toInt())
-                Positions.ACCOUNTANT -> Accountant(id.toInt(), name, age.toInt())
+                Positions.DIRECTOR -> Director(id.toInt(), name, age.toInt(), salary.toInt())
+                Positions.ASSISTANT -> Assistant(id.toInt(), name, age.toInt(), salary.toInt())
+                Positions.CONSULTANT -> Consultant(id.toInt(), name, age.toInt(), salary.toInt())
+                Positions.ACCOUNTANT -> Accountant(id.toInt(), name, age.toInt(), salary.toInt())
             }
 
-            employee.salary = salary.toInt()
             employees.add(employee)
         }
 
@@ -145,13 +167,16 @@ class Accountant(
         val name = readln()
         print("Enter new employee's age: ")
         val age = readln().toInt()
+        print("Enter new employee's salary: ")
+        val salary = readln().toInt()
+
         val positionToAdd = positions[newEmployeeIndex]
 
         val employee = when (positionToAdd) {
-            Positions.DIRECTOR -> Director(id, name, age)
-            Positions.ASSISTANT -> Assistant(id, name, age)
-            Positions.CONSULTANT -> Consultant(id, name, age)
-            Positions.ACCOUNTANT -> Accountant(id, name, age)
+            Positions.DIRECTOR -> Director(id, name, age, salary)
+            Positions.ASSISTANT -> Assistant(id, name, age, salary)
+            Positions.CONSULTANT -> Consultant(id, name, age, salary)
+            Positions.ACCOUNTANT -> Accountant(id, name, age, salary)
         }
 
         employee.serializeTo(employeesFile)

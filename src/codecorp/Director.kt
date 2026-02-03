@@ -4,7 +4,8 @@ class Director(
     id: Int,
     name: String,
     age: Int = 0,
-): Employee(id, name, age, Positions.DIRECTOR), Supplier {
+    salary: Int
+): Employee(id, name, age, salary, Positions.DIRECTOR), Supplier {
     fun getCoffeeFrom(assistant: Assistant, coffeeType: String = "Cappuccino") {
         val coffeeDeFacto = assistant.bringCoffee(coffeeType)
         println("$name [${position.name}]: Thank you, ${assistant.name}! Your $coffeeDeFacto was delicious!")

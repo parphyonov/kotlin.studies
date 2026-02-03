@@ -6,7 +6,8 @@ class Consultant(
     id: Int,
     name: String,
     age: Int = 0,
-): Employee(id, name, age, Positions.CONSULTANT), Cleaner, Supplier {
+    salary: Int
+): Employee(id, name, age, salary, Positions.CONSULTANT), Cleaner, Supplier {
     fun greet() {
         print("Hi! My name is $name.")
         if (age > 0) print(" I am $age y.o.")
