@@ -1,0 +1,3 @@
+Chips%Lays%250%400%GROCERIES
+Sound Card%Focusrite%20000%220%APPLIANCES
+Sneakers%Nike%3000%41.5%SHOES
