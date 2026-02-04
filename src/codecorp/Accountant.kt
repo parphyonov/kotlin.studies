@@ -31,7 +31,10 @@ class Accountant(
             val accountantOperationToPerform = accountantOperations[accountantOperationIndex]
 
             when (accountantOperationToPerform) {
-                AccountantOperations.EXIT -> shiftOver = true
+                AccountantOperations.EXIT -> {
+                    employeesRepository.saveChanges()
+                    shiftOver = true
+                }
                 AccountantOperations.REGISTER_NEW_ITEM -> registerNewItem()
                 AccountantOperations.SHOW_ALL_ITEMS -> showAllItems()
                 AccountantOperations.REMOVE_PRODUCT_CARD -> removeProductCard()
@@ -61,7 +64,7 @@ class Accountant(
     }
 
     private fun showAllEmployees() {
-        val employees = employeesRepository.checkEmployeeFileAndReturnEmployees()
+        val employees = employeesRepository.employees
 
         for (employee in employees) println(employee)
     }
@@ -78,7 +81,7 @@ class Accountant(
             newEmployeeIndex = readln().toInt()
         }
 
-        val employees = employeesRepository.checkEmployeeFileAndReturnEmployees()
+        val employees = employeesRepository.employees
 
         while (true) {
             print("Enter new employee's ID: ")

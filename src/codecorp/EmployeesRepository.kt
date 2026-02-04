@@ -4,61 +4,62 @@ import java.io.File
 
 class EmployeesRepository {
     private val file = File("employees.csv")
+    val employees = loadAllEmployees()
 
-    fun serialize(employee: Employee, toFile: File = file) {
+    private fun serialize(employee: Employee): String {
         val id = employee.id
         val name = employee.name
         val age = employee.age
         val salary = employee.getSalary()
         val position = employee.position
 
-        toFile.appendText("$id,$name,$age,$salary,$position\n")
+        return "$id,$name,$age,$salary,$position\n"
     }
 
-    fun checkEmployeeFileAndReturnEmployees(): MutableList<Employee> {
+    fun saveChanges() {
         if (!file.exists()) {
             println("Employees file doesn't exist. Add an item before proceeding")
-            return mutableListOf()
+            file.createNewFile()
+        } else {
+
+            if (employees.isEmpty()) {
+                println("No employees created yet")
+            } else {
+                val content = StringBuilder()
+
+                for (employee in employees) {
+                    content.append(serialize(employee))
+                }
+
+                file.writeText(content.toString())
+            }
         }
-
-        val employees = loadAllEmployees()
-
-        if (employees.isEmpty()) println("No employees created yet")
-
-        return employees
     }
 
     fun registerNewEmployee(employee: Employee) {
-        if (!file.exists()) file.createNewFile()
-        serialize(employee)
+        employees.add(employee)
     }
 
     fun changeSalary(id: Int, newSalary: Int) {
-        val employees = loadAllEmployees()
-
-        for (employee in employees)
-            if (id == employee.id) {
+        for (employee in employees) {
+            if (employee.id == id) {
                 employee.setSalary(newSalary)
                 break
             }
-
-        rewrite(employees)
+        }
     }
 
     fun fireEmployee(id: Int) {
-        val employees = loadAllEmployees()
-
-        for (employee in employees)
+        for (employee in employees) {
             if (employee.id == id) {
                 employees.remove(employee)
                 break
             }
-
-        rewrite(employees)
+        }
     }
 
     private fun loadAllEmployees(): MutableList<Employee> {
-        val employees = mutableListOf<Employee>()
+        val list = mutableListOf<Employee>()
 
         val textContent = file.readText().trim()
 
@@ -80,21 +81,13 @@ class EmployeesRepository {
                 Positions.ACCOUNTANT -> Accountant(id.toInt(), name, age.toInt(), salary.toInt())
             }
 
-            employees.add(employee)
+            list.add(employee)
         }
 
-        return employees
+        return list
     }
 
     fun isUniqueIDInAList(employees: MutableList<Employee>, id: Int): Boolean {
         return employees.none { it.id == id }
-    }
-
-    private fun rewrite(employees: MutableList<Employee>) {
-        file.writeText("")
-
-        for (employee in employees) {
-            serialize(employee)
-        }
     }
 }
