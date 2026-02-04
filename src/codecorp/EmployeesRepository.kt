@@ -57,7 +57,7 @@ class EmployeesRepository {
         rewrite(employees)
     }
 
-    fun loadAllEmployees(): MutableList<Employee> {
+    private fun loadAllEmployees(): MutableList<Employee> {
         val employees = mutableListOf<Employee>()
 
         val textContent = file.readText().trim()

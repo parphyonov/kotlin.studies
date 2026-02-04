@@ -78,7 +78,7 @@ class Accountant(
             newEmployeeIndex = readln().toInt()
         }
 
-        val employees = employeesRepository.loadAllEmployees()
+        val employees = employeesRepository.checkEmployeeFileAndReturnEmployees()
 
         while (true) {
             print("Enter new employee's ID: ")
