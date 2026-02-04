@@ -1,7 +1,5 @@
 package codecorp
 
-import java.io.File
-
 abstract class Employee(
     val id: Int,
     val name: String,
@@ -23,9 +21,5 @@ abstract class Employee(
         val localPosition = position.name.lowercase()
 
         return "$name.$id@code.$localPosition [ Age: $age | Salary: $salary ]"
-    }
-
-    open fun serializeTo(file: File) {
-        file.appendText("$id,$name,$age,${this.getSalary()},$position\n")
     }
 }

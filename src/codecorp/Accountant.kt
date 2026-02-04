@@ -16,7 +16,8 @@ class Accountant(
     salary = salary
 ), Cleaner, Supplier {
     private val cardsFile = File("product_cards.txt")
-    private val employeesFile = File("employees.csv")
+//    private val employeesFile = File("employees.csv")
+    private val employeesRepository = EmployeesRepository()
 
     override fun work() {
         val accountantOperations = AccountantOperations.entries
@@ -47,7 +48,7 @@ class Accountant(
     }
 
     private fun changeSalary() {
-        val employees = loadAllEmployees()
+        val employees = employeesRepository.loadAllEmployees()
 
         print("Enter employee's ID for salary update: ")
         val id = readln().toInt()
@@ -65,7 +66,7 @@ class Accountant(
     }
 
     private fun fireEmployee() {
-        val employees = loadAllEmployees()
+        val employees = employeesRepository.loadAllEmployees()
 
         print("Enter employee's ID (for firing): ")
         val id = readln().toInt()
@@ -82,49 +83,22 @@ class Accountant(
     }
 
     private fun rewrite(employees: MutableList<Employee>) {
-        employeesFile.writeText("")
+        val file = employeesRepository.employeesFile
+        file.writeText("")
 
         for (employee in employees) {
-            employee.serializeTo(employeesFile)
+            employeesRepository.serialize(employee)
         }
-    }
-
-    fun loadAllEmployees(): MutableList<Employee> {
-        val employees = mutableListOf<Employee>()
-
-        val textContent = employeesFile.readText().trim()
-
-        if (textContent.isEmpty()) return employees
-
-        val rawEmployees = textContent.split("\n")
-
-        for (rawEmployee in rawEmployees) {
-            val splitEmployee = rawEmployee.split(",")
-
-            if (splitEmployee.size != 5) continue
-
-            val (id, name, age, salary, position) = splitEmployee
-
-            val employee = when (Positions.valueOf(position)) {
-                Positions.DIRECTOR -> Director(id.toInt(), name, age.toInt(), salary.toInt())
-                Positions.ASSISTANT -> Assistant(id.toInt(), name, age.toInt(), salary.toInt())
-                Positions.CONSULTANT -> Consultant(id.toInt(), name, age.toInt(), salary.toInt())
-                Positions.ACCOUNTANT -> Accountant(id.toInt(), name, age.toInt(), salary.toInt())
-            }
-
-            employees.add(employee)
-        }
-
-        return employees
     }
 
     private fun showAllEmployees() {
-        if (!employeesFile.exists()) {
+        val file = employeesRepository.employeesFile
+        if (!file.exists()) {
             println("Employees file doesn't exist. Add an item before proceeding")
             return
         }
 
-        val employees = loadAllEmployees()
+        val employees = employeesRepository.loadAllEmployees()
 
         if (employees.isEmpty()) println("No employees created yet")
 
@@ -138,10 +112,11 @@ class Accountant(
     }
 
     private fun registerNewEmployee() {
-        if (!employeesFile.exists()) employeesFile.createNewFile()
+        val file = employeesRepository.employeesFile
+        if (!file.exists()) file.createNewFile()
 
         val positions = Positions.entries
-        val employees = loadAllEmployees()
+        val employees = employeesRepository.loadAllEmployees()
 
         var newEmployeeIndex = -1
         var id: Int
@@ -179,7 +154,7 @@ class Accountant(
             Positions.ACCOUNTANT -> Accountant(id, name, age, salary)
         }
 
-        employee.serializeTo(employeesFile)
+        employeesRepository.serialize(employee)
     }
 
     private fun removeProductCard() {
