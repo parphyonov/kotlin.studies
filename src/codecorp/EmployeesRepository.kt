@@ -2,7 +2,7 @@ package codecorp
 
 import java.io.File
 
-class EmployeesRepository {
+object EmployeesRepository {
     private val file = File("employees.csv")
     val employees = loadAllEmployees()
 
@@ -57,6 +57,8 @@ class EmployeesRepository {
     }
 
     private fun loadAllEmployees(): MutableList<Employee> {
+        println("EmployeesRepository: loaded all employees")
+
         val list = mutableListOf<Employee>()
 
         val textContent = file.readText().trim()

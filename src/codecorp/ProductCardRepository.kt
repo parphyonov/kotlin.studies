@@ -2,7 +2,7 @@ package codecorp
 
 import java.io.File
 
-class ProductCardRepository {
+object ProductCardRepository {
     private val file = File("product_cards.txt")
     val cards = loadAllCards()
 
