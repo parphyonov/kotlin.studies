@@ -4,7 +4,10 @@ import java.io.File
 
 object EmployeesRepository {
     private val file = File("employees.csv")
+
+    private var _employees = loadAllEmployees()
     val employees = loadAllEmployees()
+        get() = field.toMutableList()
 
     private fun serialize(employee: Employee): String {
         val id = employee.id
@@ -21,12 +24,12 @@ object EmployeesRepository {
             file.createNewFile()
         }
 
-        if (employees.isEmpty()) {
+        if (_employees.isEmpty()) {
             println("No employees created yet")
         } else {
             val content = StringBuilder()
 
-            for (employee in employees) {
+            for (employee in _employees) {
                 content.append(serialize(employee))
             }
 
@@ -35,11 +38,11 @@ object EmployeesRepository {
     }
 
     fun registerNewEmployee(employee: Employee) {
-        employees.add(employee)
+        _employees.add(employee)
     }
 
     fun changeSalary(id: Int, newSalary: Int) {
-        for (employee in employees) {
+        for (employee in _employees) {
             if (employee.id == id) {
                 employee.setSalary(newSalary)
                 break
