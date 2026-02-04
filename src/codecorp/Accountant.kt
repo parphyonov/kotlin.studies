@@ -33,6 +33,8 @@ class Accountant(
             when (accountantOperationToPerform) {
                 AccountantOperations.EXIT -> {
                     employeesRepository.saveChanges()
+                    cardsRepository.saveChanges()
+
                     shiftOver = true
                 }
                 AccountantOperations.REGISTER_NEW_ITEM -> registerNewItem()
@@ -121,7 +123,7 @@ class Accountant(
     }
 
     private fun showAllItems() {
-        val cards = cardsRepository.checkCardsFileAndReturnCards()
+        val cards = cardsRepository.cards
 
         for (card in cards) println(card)
     }

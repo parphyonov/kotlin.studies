@@ -8,5 +8,5 @@ abstract class ProductCard(
     val price: Int,
     val type: ProductCardTypes
 ) {
-    abstract fun serializeTo(file: File)
+    abstract fun serialize(): String
 }

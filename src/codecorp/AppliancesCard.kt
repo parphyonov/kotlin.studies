@@ -1,7 +1,5 @@
 package codecorp
 
-import java.io.File
-
 class AppliancesCard(
     name: String,
     brand: String,
@@ -13,8 +11,8 @@ class AppliancesCard(
     price,
     ProductCardTypes.APPLIANCES
 ) {
-    override fun serializeTo(file: File) {
-        file.appendText("$name%$brand%$price%$wattage%$type\n")
+    override fun serialize(): String {
+        return "$name%$brand%$price%$wattage%$type\n"
     }
 
     override fun toString(): String {

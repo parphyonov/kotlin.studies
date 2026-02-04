@@ -13,8 +13,8 @@ class GroceriesCard(
     price,
     ProductCardTypes.GROCERIES
 ) {
-    override fun serializeTo(file: File) {
-        file.appendText("$name%$brand%$price%$calories%$type\n")
+    override fun serialize(): String {
+        return "$name%$brand%$price%$calories%$type\n"
     }
 
     override fun toString(): String {

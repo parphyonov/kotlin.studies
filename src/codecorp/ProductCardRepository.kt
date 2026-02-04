@@ -4,48 +4,45 @@ import java.io.File
 
 class ProductCardRepository {
     private val file = File("product_cards.txt")
+    val cards = loadAllCards()
 
-    fun checkCardsFileAndReturnCards(): MutableList<ProductCard> {
+    fun saveChanges() {
         if (!file.exists()) {
-            println("Cards file doesn't exist. Add an item before proceeding")
-            return mutableListOf()
+            file.createNewFile()
         }
 
-        val cards = loadAllCards()
+        if (cards.isEmpty()) {
+            println("No cards added yet")
+        } else {
+            val content = StringBuilder()
 
-        if (cards.isEmpty()) println("No cards added yet")
+            for (card in cards) {
+                content.append(card.serialize())
+            }
 
-        return cards
+            file.writeText(content.toString())
+        }
     }
 
     fun registerNewItem(card: ProductCard) {
-        if (!file.exists()) file.createNewFile()
-        card.serializeTo(file)
+        cards.add(card)
     }
 
     fun removeProductCard(name: String) {
-        val cards = loadAllCards()
-
         for (card in cards) {
             if (card.name == name) {
                 cards.remove(card)
                 break
             }
         }
-
-        file.writeText("")
-
-        for (card in cards) {
-            card.serializeTo(file)
-        }
     }
 
     private fun loadAllCards(): MutableList<ProductCard> {
-        val cards = mutableListOf<ProductCard>()
+        val list = mutableListOf<ProductCard>()
 
         val textContent = file.readText().trim()
 
-        if (textContent.isEmpty()) return cards
+        if (textContent.isEmpty()) return list
 
         val rawItems = textContent.split("\n")
 
@@ -71,9 +68,9 @@ class ProductCardRepository {
                     ShoesCard(name, brand, price, splitItem[3].toFloat())
                 }
             }
-            cards.add(card)
+            list.add(card)
         }
 
-        return cards
+        return list
     }
 }

@@ -18,21 +18,19 @@ class EmployeesRepository {
 
     fun saveChanges() {
         if (!file.exists()) {
-            println("Employees file doesn't exist. Add an item before proceeding")
             file.createNewFile()
+        }
+
+        if (employees.isEmpty()) {
+            println("No employees created yet")
         } else {
+            val content = StringBuilder()
 
-            if (employees.isEmpty()) {
-                println("No employees created yet")
-            } else {
-                val content = StringBuilder()
-
-                for (employee in employees) {
-                    content.append(serialize(employee))
-                }
-
-                file.writeText(content.toString())
+            for (employee in employees) {
+                content.append(serialize(employee))
             }
+
+            file.writeText(content.toString())
         }
     }
 

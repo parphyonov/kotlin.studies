@@ -12,8 +12,8 @@ class ShoesCard(
     price,
     ProductCardTypes.SHOES
 ) {
-    override fun serializeTo(file: File) {
-        file.appendText("$name%$brand%$price%$size%$type\n")
+    override fun serialize(): String {
+        return "$name%$brand%$price%$size%$type\n"
     }
 
     override fun toString(): String {
