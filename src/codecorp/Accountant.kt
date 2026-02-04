@@ -1,8 +1,5 @@
 package codecorp
 
-import java.io.File
-import kotlin.text.toInt
-
 class Accountant(
     id: Int,
     name: String,
@@ -15,8 +12,7 @@ class Accountant(
     position = Positions.ACCOUNTANT,
     salary = salary
 ), Cleaner, Supplier {
-    private val cardsFile = File("product_cards.txt")
-//    private val employeesFile = File("employees.csv")
+    private val cardsRepository = ProductCardRepository()
     private val employeesRepository = EmployeesRepository()
 
     override fun work() {
@@ -65,31 +61,13 @@ class Accountant(
     }
 
     private fun showAllEmployees() {
-        val file = employeesRepository.employeesFile
-        if (!file.exists()) {
-            println("Employees file doesn't exist. Add an item before proceeding")
-            return
-        }
+        val employees = employeesRepository.checkEmployeeFileAndReturnEmployees()
 
-        val employees = employeesRepository.loadAllEmployees()
-
-        if (employees.isEmpty()) println("No employees created yet")
-
-        for (employee in employees) {
-            println(employee)
-        }
-    }
-
-    private fun isUniqueIDInAList(employees: MutableList<Employee>, id: Int): Boolean {
-        return employees.none { it.id == id }
+        for (employee in employees) println(employee)
     }
 
     private fun registerNewEmployee() {
-        val file = employeesRepository.employeesFile
-        if (!file.exists()) file.createNewFile()
-
         val positions = Positions.entries
-        val employees = employeesRepository.loadAllEmployees()
 
         var newEmployeeIndex = -1
         var id: Int
@@ -100,6 +78,8 @@ class Accountant(
             newEmployeeIndex = readln().toInt()
         }
 
+        val employees = employeesRepository.loadAllEmployees()
+
         while (true) {
             print("Enter new employee's ID: ")
             id = readln().toInt()
@@ -107,7 +87,7 @@ class Accountant(
             if (id < 0) {
                 println("Please, pick up a positive ID")
                 continue
-            } else if (isUniqueIDInAList(employees, id)) break
+            } else if (employeesRepository.isUniqueIDInAList(employees, id)) break
             else println("This id is not unique. Try a different one!")
         }
 
@@ -127,84 +107,23 @@ class Accountant(
             Positions.ACCOUNTANT -> Accountant(id, name, age, salary)
         }
 
-        employeesRepository.serialize(employee)
+        employeesRepository.registerNewEmployee(employee)
     }
 
     private fun removeProductCard() {
-        val cards = loadAllCards()
-
         print("Enter the name of the card to delete: ")
         val cardToRemove = readln()
 
-        for (card in cards) {
-            if (card.name == cardToRemove) {
-                cards.remove(card)
-                break
-            }
-        }
-
-        cardsFile.writeText("")
-
-        for (card in cards) {
-            card.serializeTo(cardsFile)
-        }
-    }
-
-    private fun loadAllCards(): MutableList<ProductCard> {
-        val cards = mutableListOf<ProductCard>()
-
-        val textContent = cardsFile.readText().trim()
-
-        if (textContent.isEmpty()) return cards
-
-        val rawItems = textContent.split("\n")
-
-        for (item in rawItems) {
-            val splitItem = item.split("%")
-            if (splitItem.size < 5) continue
-
-            val name = splitItem[0]
-            val brand = splitItem[1]
-            val price = splitItem[2].toInt()
-            val type = splitItem.last()
-
-            val card = when (ProductCardTypes.valueOf(type)) {
-                ProductCardTypes.APPLIANCES -> {
-                    AppliancesCard(name, brand, price, splitItem[3].toInt())
-                }
-
-                ProductCardTypes.GROCERIES -> {
-                    GroceriesCard(name, brand, price, splitItem[3].toInt())
-                }
-
-                ProductCardTypes.SHOES -> {
-                    ShoesCard(name, brand, price, splitItem[3].toFloat())
-                }
-            }
-            cards.add(card)
-        }
-
-        return cards
+        cardsRepository.removeProductCard(cardToRemove)
     }
 
     private fun showAllItems() {
-        if (!cardsFile.exists()) {
-            println("Cards file doesn't exist. Add an item before proceeding")
-            return
-        }
+        val cards = cardsRepository.checkCardsFileAndReturnCards()
 
-        val cards = loadAllCards()
-
-        if (cards.isEmpty()) println("No cards added yet")
-
-        for (card in cards) {
-            println(card)
-        }
+        for (card in cards) println(card)
     }
 
     private fun registerNewItem() {
-        if (!cardsFile.exists()) cardsFile.createNewFile()
-
         val productCardTypes = ProductCardTypes.entries
 
         var productCardIndex = -1
@@ -247,7 +166,7 @@ class Accountant(
             }
         }
 
-        card.serializeTo(cardsFile)
+        cardsRepository.registerNewItem(card)
     }
 
     fun <E : Enum<E>> printMenuFromEnum(entries: List<E>, onSeparateLines: Boolean = false) {

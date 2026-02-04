@@ -3,9 +3,9 @@ package codecorp
 import java.io.File
 
 class EmployeesRepository {
-    val employeesFile = File("employees.csv")
+    private val file = File("employees.csv")
 
-    fun serialize(employee: Employee, toFile: File = employeesFile) {
+    fun serialize(employee: Employee, toFile: File = file) {
         val id = employee.id
         val name = employee.name
         val age = employee.age
@@ -13,6 +13,24 @@ class EmployeesRepository {
         val position = employee.position
 
         toFile.appendText("$id,$name,$age,$salary,$position\n")
+    }
+
+    fun checkEmployeeFileAndReturnEmployees(): MutableList<Employee> {
+        if (!file.exists()) {
+            println("Employees file doesn't exist. Add an item before proceeding")
+            return mutableListOf()
+        }
+
+        val employees = loadAllEmployees()
+
+        if (employees.isEmpty()) println("No employees created yet")
+
+        return employees
+    }
+
+    fun registerNewEmployee(employee: Employee) {
+        if (!file.exists()) file.createNewFile()
+        serialize(employee)
     }
 
     fun changeSalary(id: Int, newSalary: Int) {
@@ -42,7 +60,7 @@ class EmployeesRepository {
     fun loadAllEmployees(): MutableList<Employee> {
         val employees = mutableListOf<Employee>()
 
-        val textContent = employeesFile.readText().trim()
+        val textContent = file.readText().trim()
 
         if (textContent.isEmpty()) return employees
 
@@ -68,8 +86,12 @@ class EmployeesRepository {
         return employees
     }
 
+    fun isUniqueIDInAList(employees: MutableList<Employee>, id: Int): Boolean {
+        return employees.none { it.id == id }
+    }
+
     private fun rewrite(employees: MutableList<Employee>) {
-        employeesFile.writeText("")
+        file.writeText("")
 
         for (employee in employees) {
             serialize(employee)
