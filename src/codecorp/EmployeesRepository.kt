@@ -15,6 +15,30 @@ class EmployeesRepository {
         toFile.appendText("$id,$name,$age,$salary,$position\n")
     }
 
+    fun changeSalary(id: Int, newSalary: Int) {
+        val employees = loadAllEmployees()
+
+        for (employee in employees)
+            if (id == employee.id) {
+                employee.setSalary(newSalary)
+                break
+            }
+
+        rewrite(employees)
+    }
+
+    fun fireEmployee(id: Int) {
+        val employees = loadAllEmployees()
+
+        for (employee in employees)
+            if (employee.id == id) {
+                employees.remove(employee)
+                break
+            }
+
+        rewrite(employees)
+    }
+
     fun loadAllEmployees(): MutableList<Employee> {
         val employees = mutableListOf<Employee>()
 
@@ -42,5 +66,13 @@ class EmployeesRepository {
         }
 
         return employees
+    }
+
+    private fun rewrite(employees: MutableList<Employee>) {
+        employeesFile.writeText("")
+
+        for (employee in employees) {
+            serialize(employee)
+        }
     }
 }

@@ -48,47 +48,20 @@ class Accountant(
     }
 
     private fun changeSalary() {
-        val employees = employeesRepository.loadAllEmployees()
-
         print("Enter employee's ID for salary update: ")
         val id = readln().toInt()
 
         print("Enter new salary: ")
         val newSalary = readln().toInt()
 
-        for (employee in employees)
-            if (id == employee.id) {
-                employee.setSalary(newSalary)
-                break
-            }
-
-        rewrite(employees)
+        employeesRepository.changeSalary(id, newSalary)
     }
 
     private fun fireEmployee() {
-        val employees = employeesRepository.loadAllEmployees()
-
         print("Enter employee's ID (for firing): ")
         val id = readln().toInt()
 
-        for (employee in employees) {
-            if (employee.id == id) {
-                employees.remove(employee)
-
-                rewrite(employees)
-
-                break
-            }
-        }
-    }
-
-    private fun rewrite(employees: MutableList<Employee>) {
-        val file = employeesRepository.employeesFile
-        file.writeText("")
-
-        for (employee in employees) {
-            employeesRepository.serialize(employee)
-        }
+        employeesRepository.fireEmployee(id)
     }
 
     private fun showAllEmployees() {
