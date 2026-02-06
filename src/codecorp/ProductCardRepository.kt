@@ -4,19 +4,22 @@ import java.io.File
 
 object ProductCardRepository {
     private val file = File("product_cards.txt")
-    val cards = loadAllCards()
+
+    private val _cards = loadAllCards()
+    val cards
+        get() = _cards.toList()
 
     fun saveChanges() {
         if (!file.exists()) {
             file.createNewFile()
         }
 
-        if (cards.isEmpty()) {
+        if (_cards.isEmpty()) {
             println("No cards added yet")
         } else {
             val content = StringBuilder()
 
-            for (card in cards) {
+            for (card in _cards) {
                 content.append(card.serialize())
             }
 
@@ -25,13 +28,13 @@ object ProductCardRepository {
     }
 
     fun registerNewItem(card: ProductCard) {
-        cards.add(card)
+        _cards.add(card)
     }
 
     fun removeProductCard(name: String) {
         for (card in cards) {
             if (card.name == name) {
-                cards.remove(card)
+                _cards.remove(card)
                 break
             }
         }
