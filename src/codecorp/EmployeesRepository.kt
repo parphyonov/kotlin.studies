@@ -90,7 +90,7 @@ object EmployeesRepository {
         return list
     }
 
-    fun isUniqueIDinList(list: MutableList<Employee>, id: Int): Boolean {
+    fun isUniqueIDinList(list: List<Employee>, id: Int): Boolean {
         return list.none { it.id == id }
     }
 }
