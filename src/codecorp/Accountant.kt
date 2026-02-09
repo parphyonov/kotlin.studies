@@ -125,7 +125,8 @@ class Accountant(
     private fun showAllItems() {
         val cards = cardsRepository.cards
 
-        for (card in cards) println(card)
+        for (card in cards)
+            println(card)
     }
 
     private fun registerNewItem() {

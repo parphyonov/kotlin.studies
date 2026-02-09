@@ -6,8 +6,8 @@ object EmployeesRepository {
     private val file = File("employees.csv")
 
     private var _employees = loadAllEmployees()
-    val employees = loadAllEmployees()
-        get() = field.toMutableList()
+    val employees
+        get() = _employees.toList()
 
     private fun serialize(employee: Employee): String {
         val id = employee.id
@@ -51,9 +51,9 @@ object EmployeesRepository {
     }
 
     fun fireEmployee(id: Int) {
-        for (employee in employees) {
+        for (employee in _employees) {
             if (employee.id == id) {
-                employees.remove(employee)
+                _employees.remove(employee)
                 break
             }
         }
@@ -66,7 +66,7 @@ object EmployeesRepository {
 
         val textContent = file.readText().trim()
 
-        if (textContent.isEmpty()) return employees
+        if (textContent.isEmpty()) return _employees
 
         val rawEmployees = textContent.split("\n")
 
@@ -90,7 +90,7 @@ object EmployeesRepository {
         return list
     }
 
-    fun isUniqueIDInAList(employees: MutableList<Employee>, id: Int): Boolean {
-        return employees.none { it.id == id }
+    fun isUniqueIDInAList(list: List<Employee>, id: Int): Boolean {
+        return list.none { it.id == id }
     }
 }
