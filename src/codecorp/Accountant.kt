@@ -15,6 +15,10 @@ class Accountant(
     private val cardsRepository = ProductCardRepository
     private val employeesRepository = EmployeesRepository
 
+    override fun copy(age: Int, salary: Int): Accountant {
+        return Accountant(this.id, this.name, age, salary)
+    }
+
     override fun work() {
         val accountantOperations = AccountantOperations.entries
 
@@ -44,8 +48,19 @@ class Accountant(
                 AccountantOperations.SHOW_ALL_EMPLOYEES -> showAllEmployees()
                 AccountantOperations.FIRE_EMPLOYEE -> fireEmployee()
                 AccountantOperations.CHANGE_SALARY -> changeSalary()
+                AccountantOperations.CHANGE_AGE -> changeAge()
             }
         }
+    }
+
+    private fun changeAge() {
+        print("Enter employye's ID for age updage: ")
+        val id = readln().toInt()
+
+        print("Enter new age: ")
+        val newAge = readln().toInt()
+
+        employeesRepository.changeAge(id, newAge)
     }
 
     private fun changeSalary() {

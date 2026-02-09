@@ -21,6 +21,14 @@ class Assistant (
         return coffeeType
     }
 
+    private fun changeAge(id: Int, age: Int) {
+
+    }
+
+    override fun copy(age: Int, salary: Int): Assistant {
+        return Assistant(this.id, this.name, this.age, salary)
+    }
+
     override fun work() {
         println("I assist here...")
     }

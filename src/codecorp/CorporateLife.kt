@@ -6,10 +6,6 @@ fun main() {
 //    println("CodeCorp <main>: Initiating Jarvis (Default Starter Accountant)")
 //    val jarvis = Accountant(0, "Default Starter Accountant", salary = 0)
 
-    for (employee in employees)
-        if (employee.position == Positions.ASSISTANT)
-            employee.setSalary(1_000_000)
-
     for (employee in employees) {
         employee.work()
     }

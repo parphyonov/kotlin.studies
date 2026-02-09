@@ -8,5 +8,6 @@ enum class AccountantOperations {
     REGISTER_NEW_EMPLOYEE,
     FIRE_EMPLOYEE,
     SHOW_ALL_EMPLOYEES,
-    CHANGE_SALARY
+    CHANGE_SALARY,
+    CHANGE_AGE
 }
