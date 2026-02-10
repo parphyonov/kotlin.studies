@@ -1,13 +1,13 @@
 package kontrolnye
 
-data class Order(
+data class Order1(
     val id: Int,
     val status: String,
     val type: String
 )
 
-fun removeCompletedOrders(orders: List<Order>, typeToRemove: String): List<Order> {
-    val resultList = mutableListOf<Order>()
+fun removeCompletedOrders(orders: List<Order1>, typeToRemove: String): List<Order1> {
+    val resultList = mutableListOf<Order1>()
 
     for (order in orders) {
         val isCompleted = order.status == "completed"
