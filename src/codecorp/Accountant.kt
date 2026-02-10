@@ -54,7 +54,7 @@ class Accountant(
     }
 
     private fun changeAge() {
-        print("Enter employye's ID for age updage: ")
+        print("Enter employee's ID for age upgrade: ")
         val id = readln().toInt()
 
         print("Enter new age: ")
@@ -107,7 +107,7 @@ class Accountant(
             if (id < 0) {
                 println("Please, pick up a positive ID")
                 continue
-            } else if (employeesRepository.isUniqueIDinList(employees, id)) break
+            } else if (employeesRepository.isUniqueIDInAList(employees, id)) break
             else println("This id is not unique. Try a different one!")
         }
 
