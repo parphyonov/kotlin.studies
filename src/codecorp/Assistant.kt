@@ -6,6 +6,10 @@ class Assistant (
     age: Int = 0,
     salary: Int
 ): Employee(id, name, age, salary, Positions.ASSISTANT), Cleaner, Supplier {
+    override fun copy(age: Int, salary: Int): Assistant {
+        return Assistant(this.id, this.name, age, salary)
+    }
+
     fun bringCoffee(coffeeType: String = "Cappuccino", count: Int = 1): String {
         repeat(count) {
             println("$name [${position.name}]: Get up")
@@ -19,14 +23,6 @@ class Assistant (
         }
 
         return coffeeType
-    }
-
-    private fun changeAge(id: Int, age: Int) {
-
-    }
-
-    override fun copy(age: Int, salary: Int): Assistant {
-        return Assistant(this.id, this.name, this.age, salary)
     }
 
     override fun work() {

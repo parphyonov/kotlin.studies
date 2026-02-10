@@ -6,7 +6,7 @@ class Director(
     age: Int = 0,
     salary: Int
 ): Employee(id, name, age, salary, Positions.DIRECTOR), Supplier {
-    override fun copy(salary: Int): Director {
+    override fun copy(age: Int, salary: Int): Director {
         return Director(this.id, this.name, this.age, salary)
     }
 

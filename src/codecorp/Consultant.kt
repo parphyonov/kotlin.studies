@@ -8,7 +8,7 @@ class Consultant(
     age: Int = 0,
     salary: Int
 ): Employee(id, name, age, salary, Positions.CONSULTANT), Cleaner, Supplier {
-    override fun copy(salary: Int): Consultant {
+    override fun copy(age: Int, salary: Int): Consultant {
         return Consultant(this.id, this.name, this.age, salary)
     }
 

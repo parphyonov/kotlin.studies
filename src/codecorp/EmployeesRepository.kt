@@ -54,7 +54,7 @@ object EmployeesRepository {
     fun changeSalary(id: Int, newSalary: Int) {
         for ((index, employee) in _employees.withIndex()) {
             if (employee.id == id) {
-                val newEmployee: Employee = employee.copy(newSalary)
+                val newEmployee: Employee = employee.copy(salary = newSalary)
                 _employees[index] = newEmployee
                 break
             }
