@@ -32,7 +32,7 @@ object ProductCardRepository {
     }
 
     fun removeProductCard(name: String) {
-        for (card in cards) {
+        for (card in _cards) {
             if (card.name == name) {
                 _cards.remove(card)
                 break

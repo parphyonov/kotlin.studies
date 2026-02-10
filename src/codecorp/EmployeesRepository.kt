@@ -13,7 +13,7 @@ object EmployeesRepository {
         val id = employee.id
         val name = employee.name
         val age = employee.age
-        val salary = employee.getSalary()
+        val salary = employee.salary
         val position = employee.position
 
         return "$id,$name,$age,$salary,$position\n"
@@ -41,10 +41,21 @@ object EmployeesRepository {
         _employees.add(employee)
     }
 
-    fun changeSalary(id: Int, newSalary: Int) {
-        for (employee in _employees) {
+    fun changeAge(id: Int, newAge: Int) {
+        for ((index, employee) in _employees.withIndex()) {
             if (employee.id == id) {
-                employee.setSalary(newSalary)
+                val newEmployee = employee.copy(age = newAge)
+                _employees[index] = newEmployee
+                break
+            }
+        }
+    }
+
+    fun changeSalary(id: Int, newSalary: Int) {
+        for ((index, employee) in _employees.withIndex()) {
+            if (employee.id == id) {
+                val newEmployee: Employee = employee.copy(newSalary)
+                _employees[index] = newEmployee
                 break
             }
         }
@@ -90,7 +101,7 @@ object EmployeesRepository {
         return list
     }
 
-    fun isUniqueIDinList(list: List<Employee>, id: Int): Boolean {
+    fun isUniqueIDInAList(list: List<Employee>, id: Int): Boolean {
         return list.none { it.id == id }
     }
 }
