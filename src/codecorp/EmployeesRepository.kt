@@ -37,8 +37,13 @@ object EmployeesRepository {
         }
     }
 
-    fun registerNewEmployee(employee: Employee) {
-        _employees.add(employee)
+    fun registerNewEmployee(newEmployee: Employee) {
+        for (employee in employees) {
+            if (employee == newEmployee) {
+                return
+            }
+        }
+        _employees.add(newEmployee)
     }
 
     fun changeAge(id: Int, newAge: Int) {

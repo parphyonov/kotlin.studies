@@ -90,7 +90,6 @@ class Accountant(
         val positions = Positions.entries
 
         var newEmployeeIndex = -1
-        var id: Int
 
         while (newEmployeeIndex !in 0..<positions.size) {
             print("Select an employee type to add. ")
@@ -100,17 +99,8 @@ class Accountant(
 
         val employees = employeesRepository.employees
 
-        while (true) {
-            print("Enter new employee's ID: ")
-            id = readln().toInt()
-
-            if (id < 0) {
-                println("Please, pick up a positive ID")
-                continue
-            } else if (employeesRepository.isUniqueIDInAList(employees, id)) break
-            else println("This id is not unique. Try a different one!")
-        }
-
+        print("Enter new employee's ID: ")
+        val id = readln().toInt()
         print("Enter new employee's name: ")
         val name = readln()
         print("Enter new employee's age: ")
