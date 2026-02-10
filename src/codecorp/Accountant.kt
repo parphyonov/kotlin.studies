@@ -181,7 +181,7 @@ class Accountant(
             }
 
             ProductCardTypes.SHOES -> {
-                print("Enter appliance's size: ")
+                print("Enter shoe pair's size: ")
                 val size = readln().toFloat()
                 ShoesCard(name, brand, price, size)
             }

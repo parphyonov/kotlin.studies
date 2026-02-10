@@ -7,7 +7,7 @@ class Director(
     salary: Int
 ): Employee(id, name, age, salary, Positions.DIRECTOR), Supplier {
     override fun copy(age: Int, salary: Int): Director {
-        return Director(this.id, this.name, this.age, salary)
+        return Director(this.id, this.name, age, salary)
     }
 
     fun getCoffeeFrom(assistant: Assistant, coffeeType: String = "Cappuccino") {
