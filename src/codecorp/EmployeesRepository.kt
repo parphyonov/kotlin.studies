@@ -38,29 +38,28 @@ object EmployeesRepository {
     }
 
     fun registerNewEmployee(newEmployee: Employee) {
-        for (employee in employees) {
-            if (employee == newEmployee) {
-                return
-            }
-        }
         _employees.add(newEmployee)
     }
 
     fun changeAge(id: Int, newAge: Int) {
-        for ((index, employee) in _employees.withIndex()) {
+        for (employee in _employees) {
             if (employee.id == id) {
-                val newEmployee = employee.copy(age = newAge)
-                _employees[index] = newEmployee
+                if (employee.age > newAge) return
+
+                _employees.remove(employee)
+                _employees.add(employee.copy(age = newAge))
                 break
             }
         }
     }
 
     fun changeSalary(id: Int, newSalary: Int) {
-        for ((index, employee) in _employees.withIndex()) {
+        for (employee in _employees) {
             if (employee.id == id) {
-                val newEmployee: Employee = employee.copy(salary = newSalary)
-                _employees[index] = newEmployee
+                if (employee.salary > newSalary) return
+
+                _employees.remove(employee)
+                _employees.add(employee.copy(salary = newSalary))
                 break
             }
         }
@@ -75,10 +74,10 @@ object EmployeesRepository {
         }
     }
 
-    private fun loadAllEmployees(): MutableList<Employee> {
+    private fun loadAllEmployees(): MutableSet<Employee> {
         println("EmployeesRepository: loaded all employees")
 
-        val list = mutableListOf<Employee>()
+        val list = mutableSetOf<Employee>()
 
         val textContent = file.readText().trim()
 
@@ -106,7 +105,7 @@ object EmployeesRepository {
         return list
     }
 
-    fun isUniqueIDInAList(list: List<Employee>, id: Int): Boolean {
-        return list.none { it.id == id }
-    }
+//    fun isUniqueIDInAList(list: List<Employee>, id: Int): Boolean {
+//        return list.none { it.id == id }
+//    }
 }

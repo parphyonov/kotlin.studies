@@ -1,10 +1,10 @@
 package codecorp
 
-class Director(
-    id: Int,
-    name: String,
-    age: Int = 0,
-    salary: Int
+data class Director(
+    override val id: Int,
+    override val name: String,
+    override val age: Int = 0,
+    override val salary: Int
 ): Employee(id, name, age, salary, Positions.DIRECTOR), Supplier {
     override fun copy(age: Int, salary: Int): Director {
         return Director(this.id, this.name, age, salary)

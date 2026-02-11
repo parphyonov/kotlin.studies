@@ -2,11 +2,11 @@ package codecorp
 
 import kotlin.random.Random
 
-class Consultant(
-    id: Int,
-    name: String,
-    age: Int = 0,
-    salary: Int
+data class Consultant(
+    override val id: Int,
+    override val name: String,
+    override val age: Int = 0,
+    override val salary: Int
 ): Employee(id, name, age, salary, Positions.CONSULTANT), Cleaner, Supplier {
     override fun copy(age: Int, salary: Int): Consultant {
         return Consultant(this.id, this.name, age, salary)

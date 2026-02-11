@@ -1,10 +1,10 @@
 package codecorp
 
-class Accountant(
-    id: Int,
-    name: String,
-    age: Int = 0,
-    salary: Int
+data class Accountant(
+    override val id: Int,
+    override val name: String,
+    override val age: Int = 0,
+    override val salary: Int
 ) : Employee(
     id = id,
     name = name,
@@ -96,8 +96,6 @@ class Accountant(
             printMenuFromEnum(positions)
             newEmployeeIndex = readln().toInt()
         }
-
-        val employees = employeesRepository.employees
 
         print("Enter new employee's ID: ")
         val id = readln().toInt()

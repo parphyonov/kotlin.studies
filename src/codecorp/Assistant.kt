@@ -1,10 +1,10 @@
 package codecorp
 
-class Assistant (
-    id: Int,
-    name: String,
-    age: Int = 0,
-    salary: Int
+data class Assistant (
+    override val id: Int,
+    override val name: String,
+    override val age: Int = 0,
+    override val salary: Int
 ): Employee(id, name, age, salary, Positions.ASSISTANT), Cleaner, Supplier {
     override fun copy(age: Int, salary: Int): Assistant {
         return Assistant(this.id, this.name, age, salary)
