@@ -2,14 +2,14 @@ package kontrolnye
 
 data class Book(val title: String, val author: String)
 
-data class User(val name: String, val id: Int)
+data class User1(val name: String, val id: Int)
 
 class Library(val libraryName: String) {
     private val _books = mutableListOf<Book>()
     val books
         get() = _books.toList()
 
-    private val _users = mutableListOf<User>()
+    private val _users = mutableListOf<User1>()
     val users
         get() = _users.toList()
 
@@ -18,7 +18,7 @@ class Library(val libraryName: String) {
         println("Книга \"${book.title}\" добавлена в библиотеку.")
     }
 
-    fun addUser(user: User) {
+    fun addUser(user: User1) {
         _users.add(user)
         println("Пользователь ${user.name} добавлен в библиотеку.")
     }
@@ -57,7 +57,7 @@ class Library(val libraryName: String) {
 fun main() {
     val mylib = Library("mylib")
     mylib.addBook(Book("Emerald City Wizard", "Aleksandr Volkov"))
-    mylib.addUser(User("Leonid Vladimirsky", 101))
+    mylib.addUser(User1("Leonid Vladimirsky", 101))
 
     mylib.printAllBooks()
     mylib.printAllUsers()
