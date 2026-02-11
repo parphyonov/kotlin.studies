@@ -6,9 +6,13 @@ data class Director(
     override val age: Int = 0,
     override val salary: Int
 ): Employee(id, name, age, salary, Positions.DIRECTOR), Supplier {
-    override fun copy(age: Int, salary: Int): Director {
-        return Director(this.id, this.name, age, salary)
-    }
+    override fun copy(
+        id: Int,
+        name: String,
+        age: Int,
+        salary: Int,
+        position: Positions
+    ): Director = Director(id, name, age, salary)
 
     fun getCoffeeFrom(assistant: Assistant, coffeeType: String = "Cappuccino") {
         val coffeeDeFacto = assistant.bringCoffee(coffeeType)

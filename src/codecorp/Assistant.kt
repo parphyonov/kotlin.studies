@@ -6,9 +6,13 @@ data class Assistant (
     override val age: Int = 0,
     override val salary: Int
 ): Employee(id, name, age, salary, Positions.ASSISTANT), Cleaner, Supplier {
-    override fun copy(age: Int, salary: Int): Assistant {
-        return Assistant(this.id, this.name, age, salary)
-    }
+    override fun copy(
+        id: Int,
+        name: String,
+        age: Int,
+        salary: Int,
+        position: Positions
+    ): Assistant = Assistant(id, name, age, salary)
 
     fun bringCoffee(coffeeType: String = "Cappuccino", count: Int = 1): String {
         repeat(count) {

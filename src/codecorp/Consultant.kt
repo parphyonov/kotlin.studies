@@ -8,9 +8,13 @@ data class Consultant(
     override val age: Int = 0,
     override val salary: Int
 ): Employee(id, name, age, salary, Positions.CONSULTANT), Cleaner, Supplier {
-    override fun copy(age: Int, salary: Int): Consultant {
-        return Consultant(this.id, this.name, age, salary)
-    }
+    override fun copy(
+        id: Int,
+        name: String,
+        age: Int,
+        salary: Int,
+        position: Positions
+    ): Consultant = Consultant(id, name, age, salary)
 
     fun greet() {
         print("Hi! My name is $name.")
