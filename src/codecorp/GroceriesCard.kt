@@ -1,11 +1,9 @@
 package codecorp
 
-import java.io.File
-
-class GroceriesCard(
-    name: String,
-    brand: String,
-    price: Int = 0,
+data class GroceriesCard(
+    override val name: String,
+    override val brand: String,
+    override val price: Int = 0,
     val calories: Int
 ): ProductCard(
     name,
@@ -15,9 +13,5 @@ class GroceriesCard(
 ) {
     override fun serialize(): String {
         return "$name%$brand%$price%$calories%$type\n"
-    }
-
-    override fun toString(): String {
-        return "Name: $name, Brand: $brand, Price: $price, Calories: $calories"
     }
 }

@@ -1,12 +1,10 @@
 package codecorp
 
-import java.io.File
-
 abstract class ProductCard(
-    val name: String,
-    val brand: String,
-    val price: Int,
-    val type: ProductCardTypes
+    open val name: String,
+    open val brand: String,
+    open val price: Int,
+    open val type: ProductCardTypes
 ) {
     abstract fun serialize(): String
 }

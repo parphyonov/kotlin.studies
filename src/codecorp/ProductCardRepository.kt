@@ -40,12 +40,12 @@ object ProductCardRepository {
         }
     }
 
-    private fun loadAllCards(): MutableList<ProductCard> {
-        val list = mutableListOf<ProductCard>()
+    private fun loadAllCards(): MutableSet<ProductCard> {
+        val set = mutableSetOf<ProductCard>()
 
         val textContent = file.readText().trim()
 
-        if (textContent.isEmpty()) return list
+        if (textContent.isEmpty()) return set
 
         val rawItems = textContent.split("\n")
 
@@ -71,9 +71,9 @@ object ProductCardRepository {
                     ShoesCard(name, brand, price, splitItem[3].toFloat())
                 }
             }
-            list.add(card)
+            set.add(card)
         }
 
-        return list
+        return set
     }
 }

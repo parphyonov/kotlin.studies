@@ -1,22 +1,17 @@
 package codecorp
 
-import java.io.File
-
-class ShoesCard(
-    name: String,
-    brand: String,
-    price: Int = 0,
+data class ShoesCard(
+    override val name: String,
+    override val brand: String,
+    override val price: Int = 0,
     val size: Float
-): ProductCard(name,
+): ProductCard(
+    name,
     brand,
     price,
     ProductCardTypes.SHOES
 ) {
     override fun serialize(): String {
         return "$name%$brand%$price%$size%$type\n"
-    }
-
-    override fun toString(): String {
-        return "Name: $name, Brand: $brand, Price: $price, Size: $size"
     }
 }

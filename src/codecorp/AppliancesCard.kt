@@ -1,9 +1,9 @@
 package codecorp
 
-class AppliancesCard(
-    name: String,
-    brand: String,
-    price: Int = 0,
+data class AppliancesCard(
+    override val name: String,
+    override val brand: String,
+    override val price: Int = 0,
     val wattage: Int
 ): ProductCard(
     name,
@@ -13,9 +13,5 @@ class AppliancesCard(
 ) {
     override fun serialize(): String {
         return "$name%$brand%$price%$wattage%$type\n"
-    }
-
-    override fun toString(): String {
-        return "Name: $name, Brand: $brand, Price: $price, Wattage: $wattage"
     }
 }
