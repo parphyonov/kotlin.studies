@@ -12,6 +12,7 @@ abstract class Employee(
     abstract fun work()
 
     override fun equals(other: Any?): Boolean {
+        if (this === other) return true
         if (other !is Employee) return false
 
         return id == other.id &&
@@ -25,5 +26,14 @@ abstract class Employee(
         val localPosition = position.name.lowercase()
 
         return "$name.$id@code.$localPosition [ Age: $age | Salary: $salary ]"
+    }
+
+    override fun hashCode(): Int {
+        var result = id
+        result = 31 * result + age
+        result = 31 * result + salary
+        result = 31 * result + name.hashCode()
+        result = 31 * result + position.hashCode()
+        return result
     }
 }
