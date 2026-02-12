@@ -14,9 +14,13 @@ data class Director(
         position: Positions
     ): Director = Director(id, name, age, salary)
 
-    fun getCoffeeFrom(assistant: Assistant, coffeeType: String = "Cappuccino") {
-        val coffeeDeFacto = assistant.bringCoffee(coffeeType)
-        println("$name [${position.name}]: Thank you, ${assistant.name}! Your $coffeeDeFacto was delicious!")
+    fun getCoffeeFrom(assistant: Assistant?, coffeeType: String = "Cappuccino") {
+        val coffeeDeFacto = assistant?.bringCoffee(coffeeType)
+        if (assistant != null && coffeeDeFacto != null) {
+            println("$name [${position.name}]: Thank you, ${assistant.name}! Your $coffeeDeFacto was delicious!")
+        } else {
+            println("There is either no assistant or coffee")
+        }
     }
 
     fun getCleanerToCleanUp(cleaner: Cleaner) {

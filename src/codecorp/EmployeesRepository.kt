@@ -19,6 +19,22 @@ object EmployeesRepository {
         return "$id,$name,$age,$salary,$position\n"
     }
 
+    fun findAssistant(): Assistant? {
+        for (employee in _employees)
+            if (employee is Assistant)
+                return employee
+
+        return null
+    }
+
+    fun findDirector(): Director? {
+        for (employee in _employees)
+            if (employee is Director)
+                return employee
+
+        return null
+    }
+
     fun saveChanges() {
         if (!file.exists()) {
             file.createNewFile()

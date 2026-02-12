@@ -9,5 +9,7 @@ enum class AccountantOperations {
     FIRE_EMPLOYEE,
     SHOW_ALL_EMPLOYEES,
     CHANGE_SALARY,
-    CHANGE_AGE
+    CHANGE_AGE,
+    FIND_ASSISTANT,
+    FIND_DIRECTOR
 }

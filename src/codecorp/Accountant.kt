@@ -53,7 +53,34 @@ data class Accountant(
                 AccountantOperations.FIRE_EMPLOYEE -> fireEmployee()
                 AccountantOperations.CHANGE_SALARY -> changeSalary()
                 AccountantOperations.CHANGE_AGE -> changeAge()
+                AccountantOperations.FIND_ASSISTANT -> findAssistant()
+                AccountantOperations.FIND_DIRECTOR -> findDirector()
             }
+        }
+    }
+
+    private fun findAssistant() {
+        val assistant = employeesRepository.findAssistant()
+        if (assistant != null) {
+            assistant.bringCoffee("Latte Russiano")
+        } else {
+            println("No assistants found. Consider hiring one")
+        }
+    }
+
+    private fun findDirector() {
+        var currentDirector = employeesRepository.findDirector()
+        val currentAssistant = employeesRepository.findAssistant()
+
+        if (currentDirector == null) {
+            println("Codecorp appeared to have hired no director.")
+            println("In order to overcome upcoming obstacles, the system has appointed a temporary digital director for you")
+            currentDirector = Director(1001, "Digislave Overlordovich", 0, 0)
+            employeesRepository.registerNewEmployee(currentDirector)
+        }
+
+        if (currentAssistant != null) {
+            currentDirector.getCoffeeFrom(currentAssistant)
         }
     }
 

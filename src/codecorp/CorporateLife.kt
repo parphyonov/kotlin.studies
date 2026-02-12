@@ -1,9 +1,12 @@
 package codecorp
 
-fun main() {
-    val employees = EmployeesRepository.employees
+import codecorp.EmployeesRepository.findDirector
 
-    for (employee in employees) {
-        employee.work()
-    }
+fun main() {
+    val assistant = EmployeesRepository.findAssistant()
+    assistant?.printInfo()
+
+    val director = findDirector()
+    director?.printInfo()
+    director?.getCoffeeFrom(assistant)
 }

@@ -16,4 +16,8 @@ abstract class Employee(
     ): Employee
 
     abstract fun work()
+
+    fun printInfo() {
+        println(this)
+    }
 }
