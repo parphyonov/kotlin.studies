@@ -1,12 +1,15 @@
 package codecorp
 
-import codecorp.EmployeesRepository.findDirector
-
 fun main() {
     val assistant = EmployeesRepository.findAssistant()
     assistant?.printInfo()
 
-    val director = findDirector()
+    val director = EmployeesRepository.findDirector()
     director?.printInfo()
-    director?.getCoffeeFrom(assistant)
+
+    val assistantSalary = assistant?.salary ?: 0
+    val directorSalary = director?.salary ?: 0
+    val total = assistantSalary + directorSalary
+
+    println("Total salary: $total")
 }
